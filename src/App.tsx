@@ -5,6 +5,7 @@ import Health from './pages/Health';
 import Expenses from './pages/Expenses';
 import Assistant from './pages/Assistant';
 import Alerts from './pages/Alerts';
+import RegisterVehicle from './pages/RegisterVehicle';
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
           <Route path="/expenses" element={<Expenses />} />
           <Route path="/assistant" element={<Assistant />} />
           <Route path="/alerts" element={<Alerts />} />
+          <Route path="/register" element={<RegisterVehicle />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />
