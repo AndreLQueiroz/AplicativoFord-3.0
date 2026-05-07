@@ -1,8 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Bell, ChevronDown, Fuel, Gauge, ShieldCheck } from 'lucide-react';
+import {
+  Bell,
+  ChevronDown,
+  Fuel,
+  Gauge,
+  ShieldCheck,
+} from 'lucide-react';
+
 import { Link } from 'react-router-dom';
 
+import Reveal from '../components/animations/Reveal';
 import StatusCard from '../components/cards/StatusCard';
 import CarScene from '../components/vehicle/CarScene';
 import HealthChart from '../components/charts/HealthChart';
@@ -32,39 +40,40 @@ function getStatusByRemainingKm(
   remainingKm: number
 ): StatusType {
   if (remainingKm <= 0) return 'danger';
+
   if (remainingKm <= 1000) return 'warning';
+
   return 'ok';
 }
 
+function getSavedVehicle(): VehicleData | null {
+  const savedVehicle =
+    localStorage.getItem('autopulse_vehicle');
+
+  if (!savedVehicle) {
+    return null;
+  }
+
+  return JSON.parse(savedVehicle) as VehicleData;
+}
+
 export default function Home() {
-  const [vehicle, setVehicle] =
-    useState<VehicleData | null>(null);
-
-  useEffect(() => {
-    const loadVehicle = () => {
-      const savedVehicle =
-        localStorage.getItem('autopulse_vehicle');
-
-      if (!savedVehicle) return;
-
-      const parsedVehicle: VehicleData =
-        JSON.parse(savedVehicle);
-
-      setVehicle(parsedVehicle);
-    };
-
-    loadVehicle();
-  }, []);
+  const [vehicle] =
+    useState<VehicleData | null>(() => getSavedVehicle());
 
   const currentKm = Number(vehicle?.currentKm || 12500);
 
-  const monthlyKm = Number(vehicle?.monthlyKm || 800);
+  const monthlyKm = Number(
+    vehicle?.monthlyKm || 800
+  );
 
   const averageConsumption = Number(
     vehicle?.averageConsumption || 10
   );
 
-  const fuelPrice = Number(vehicle?.fuelPrice || 5.8);
+  const fuelPrice = Number(
+    vehicle?.fuelPrice || 5.8
+  );
 
   const lastOilChangeKm = Number(
     vehicle?.lastOilChangeKm || 8000
@@ -95,14 +104,19 @@ export default function Home() {
     getStatusByRemainingKm(oilRemainingKm);
 
   const revisionStatus =
-    getStatusByRemainingKm(revisionRemainingKm);
+    getStatusByRemainingKm(
+      revisionRemainingKm
+    );
 
   const tireStatus =
-    getStatusByRemainingKm(tireRemainingKm);
+    getStatusByRemainingKm(
+      tireRemainingKm
+    );
 
   const monthlyFuelCost =
     averageConsumption > 0
-      ? (monthlyKm / averageConsumption) * fuelPrice
+      ? (monthlyKm / averageConsumption) *
+        fuelPrice
       : 0;
 
   const problems = [
@@ -149,7 +163,8 @@ export default function Home() {
         : 'Alguns itens passaram do limite recomendado de manutenção.';
 
   const modelName =
-    vehicle?.model || 'Ford Territory Titanium';
+    vehicle?.model ||
+    'Ford Territory Titanium';
 
   const consumptionText =
     `${averageConsumption} km/L`;
@@ -253,88 +268,99 @@ export default function Home() {
         </Link>
       </div>
 
-     <motion.div
-  initial={{ opacity: 0, y: 40 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  viewport={{ once: true, amount: 0.2 }}
-  transition={{ duration: 0.6 }}
-  className="grid grid-cols-2 gap-4 px-5 py-6 items-start"
->
+      <div className="grid grid-cols-2 gap-4 px-5 py-6 items-start">
 
-        <StatusCard
-          title="Combustível"
-          value={`${fuelCostText}/mês`}
-          description={`Estimativa baseada em ${monthlyKm} km.`}
-          icon={Fuel}
-          status="warning"
-        />
+        <Reveal delay={0.1}>
+          <StatusCard
+            title="Combustível"
+            value={`${fuelCostText}/mês`}
+            description={`Estimativa baseada em ${monthlyKm} km.`}
+            icon={Fuel}
+            status="warning"
+          />
+        </Reveal>
 
-        <StatusCard
-          title="Consumo"
-          value={consumptionText}
-          description="Média cadastrada pelo usuário."
-          icon={Gauge}
-        />
+        <Reveal delay={0.2}>
+          <StatusCard
+            title="Consumo"
+            value={consumptionText}
+            description="Média cadastrada pelo usuário."
+            icon={Gauge}
+          />
+        </Reveal>
 
-        <StatusCard
-          title="Óleo"
-          value={
-            oilRemainingKm > 0
-              ? `${oilRemainingKm} km`
-              : 'Vencido'
-          }
-          description="Até a próxima troca recomendada."
-          icon={ShieldCheck}
-          status={oilStatus}
-        />
+        <Reveal delay={0.3}>
+          <StatusCard
+            title="Óleo"
+            value={
+              oilRemainingKm > 0
+                ? `${oilRemainingKm} km`
+                : 'Vencido'
+            }
+            description="Até a próxima troca recomendada."
+            icon={ShieldCheck}
+            status={oilStatus}
+          />
+        </Reveal>
 
-        <StatusCard
-          title="Revisão"
-          value={
-            revisionRemainingKm > 0
-              ? `${revisionRemainingKm} km`
-              : 'Vencida'
-          }
-          description="Baseada na última revisão cadastrada."
-          icon={ShieldCheck}
-          status={revisionStatus}
-        />
+        <Reveal delay={0.4}>
+          <StatusCard
+            title="Revisão"
+            value={
+              revisionRemainingKm > 0
+                ? `${revisionRemainingKm} km`
+                : 'Vencida'
+            }
+            description="Baseada na última revisão cadastrada."
+            icon={ShieldCheck}
+            status={revisionStatus}
+          />
+        </Reveal>
 
-        <StatusCard
-          title="Pneus"
-          value={
-            tireRemainingKm > 0
-              ? `${tireRemainingKm} km`
-              : 'Verificar'
-          }
-          description="Estimativa de vida útil restante."
-          icon={ShieldCheck}
-          status={tireStatus}
-        />
+        <Reveal delay={0.5}>
+          <StatusCard
+            title="Pneus"
+            value={
+              tireRemainingKm > 0
+                ? `${tireRemainingKm} km`
+                : 'Verificar'
+            }
+            description="Estimativa de vida útil restante."
+            icon={ShieldCheck}
+            status={tireStatus}
+          />
+        </Reveal>
 
-        <StatusCard
-          title="Status geral"
-          value={
-            healthScore >= 85
-              ? 'Bom'
-              : healthScore >= 70
-                ? 'Atenção'
-                : 'Crítico'
-          }
-          description="Baseado nos dados cadastrados."
-          icon={ShieldCheck}
-          status={
-            healthScore >= 85
-              ? 'ok'
-              : healthScore >= 70
-                ? 'warning'
-                : 'danger'
-          }
-        />
+        <Reveal delay={0.6}>
+          <StatusCard
+            title="Status geral"
+            value={
+              healthScore >= 85
+                ? 'Bom'
+                : healthScore >= 70
+                  ? 'Atenção'
+                  : 'Crítico'
+            }
+            description="Baseado nos dados cadastrados."
+            icon={ShieldCheck}
+            status={
+              healthScore >= 85
+                ? 'ok'
+                : healthScore >= 70
+                  ? 'warning'
+                  : 'danger'
+            }
+          />
+        </Reveal>
 
-        <HealthChart />
+        <Reveal
+          delay={0.7}
+          className="col-span-2"
+        >
+          <HealthChart />
+        </Reveal>
 
-      </motion.div>
+      </div>
     </section>
   );
 }
