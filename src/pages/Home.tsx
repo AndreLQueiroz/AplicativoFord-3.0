@@ -253,7 +253,13 @@ export default function Home() {
         </Link>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 px-5 py-6 items-start">
+     <motion.div
+  initial={{ opacity: 0, y: 40 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true, amount: 0.2 }}
+  transition={{ duration: 0.6 }}
+  className="grid grid-cols-2 gap-4 px-5 py-6 items-start"
+>
 
         <StatusCard
           title="Combustível"
@@ -328,7 +334,7 @@ export default function Home() {
 
         <HealthChart />
 
-      </div>
+      </motion.div>
     </section>
   );
 }
