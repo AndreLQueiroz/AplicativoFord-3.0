@@ -1,5 +1,9 @@
+import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+
 import AppLayout from './components/layout/AppLayout';
+import LoadingScreen from './components/LoadingScreen';
+
 import Home from './pages/Home';
 import Health from './pages/Health';
 import Expenses from './pages/Expenses';
@@ -10,6 +14,20 @@ import AddFuel from './pages/AddFuel';
 import FuelHistory from './pages/FuelHistory';
 
 export default function App() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return <LoadingScreen />;
+  }
+
   return (
     <BrowserRouter>
       <Routes>
