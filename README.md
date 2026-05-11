@@ -73,31 +73,31 @@ A aplicação foi organizada de forma modular, separando páginas, componentes, 
 
 ## 🏠 Tela Inicial
 
-![Tela Inicial](./assets/readme/Home.png)
+![Tela Inicial](./src/assets/readme/Home.png)
 
 ---
 
 ## 🚗 Simulador Drive
 
-![Drive](./assets/readme/Drive.png)
+![Drive](./src/assets/readme/Drive.png)
 
 ---
 
 ## 🤖 Assistente Virtual
 
-![Assistente](./assets/readme/Assistente.png)
+![Assistente](./src/assets/readme/Assistente.png)
 
 ---
 
 ## ⛽ Controle de Gastos
 
-![Gastos](./assets/readme/Gastos.png)
+![Gastos](./src/assets/readme/Gastos.png)
 
 ---
 
 ## 🚨 Alertas Inteligentes
 
-![Alertas](./assets/readme/Alertas.png)
+![Alertas](./src/assets/readme/Alertas.png)
 
 ---
 
