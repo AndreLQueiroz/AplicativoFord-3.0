@@ -73,9 +73,7 @@ A aplicação foi organizada de forma modular, separando páginas, componentes, 
 
 ## 🏠 Tela Inicial
 
-<p align="center">
-  <img src="./src/assets/readme/Home.png" width="200"/>
-</p>
+![Tela Inicial](./src/assets/readme/Home.png)
 
 ---
 
