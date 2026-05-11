@@ -38,7 +38,7 @@ A solução faz sentido como aplicação mobile/web porque o motorista precisa c
 
 | Rafael Oliveira | RM554736 |
 
-| Marcys Vinicius | RM555490 |
+| Marcus Vinicius | RM555490 |
 
 
 
